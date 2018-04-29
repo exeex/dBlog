@@ -15,21 +15,24 @@ bluzelle.connect('ws://140.114.78.42:51010', UUID);
 //     });
 // });
 
+//
+// bluzelle.keys().then(keys => {
+//     console.log(keys);
+//     for (x in keys) {
+//         bluzelle.read(keys[x]).then(value => {
+//             let title = value['title']
+//             let content = value['content']
+//             console.log(content)
+//         }, error => {
+//         });
+//
+//
+//     }
+// }, error => {
+//     console.log(error);
+// });
 
-bluzelle.keys().then(keys => {
-    console.log(keys);
-    for (x in keys) {
-        bluzelle.read(keys[x]).then(value => {
-            let title = value['title']
-            let content = value['content']
-            console.log(content)
-        }, error => {
-        });
 
 
-    }
-}, error => {
-    console.log(error);
-});
-
-
+            let min = getMinutes().toString();
+            console.log(min);

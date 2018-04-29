@@ -28,10 +28,25 @@
 
 ///////////main.js//////////
 
+
+        // First, checks if it isn't implemented yet.
+        if (!String.prototype.format) {
+            String.prototype.format = function () {
+                var args = arguments;
+                return this.replace(/{(\d+)}/g, function (match, number) {
+                    return typeof args[number] != 'undefined'
+                        ? args[number]
+                        : match
+                        ;
+                });
+            };
+        }
         ///////////connect//////////
         const bluzelle = require('bluzelle');
         let UUID = "caa7eeca-3ca8-427d-bd17-a42e8c37ea06";
         bluzelle.connect('ws://140.114.78.42:51010', UUID);
+
+
 
         ///////////new post//////////
         $("#submit").on("click", function (event) {
@@ -39,10 +54,23 @@
             var title = $('input#title').val();
             var content = simplemde.value();
 
-            bluzelle.create(title, {title: title, content: content}).then(() => {
-                console.log(UUID);
+            var d = new Date();
+            let year = d.getFullYear().toString();
+            let mon = d.getMonth().toString();
+            let date = d.getDate().toString();
+            let hr = d.getHours().toString();
+            let min = d.getMinutes().toString();
+            let time = year + '/' + mon + '/' + date + ' ' + hr + ':' + min;
+
+            bluzelle.create(title, {title: title, time:time, content: content}).then(() => {
+                console.log(time);
+                window.location.href = "index.html";
             });
         });
+
+
+        ///////////showdown//////////
+        var converter = new showdown.Converter();
 
         ///////////load article//////////
         bluzelle.keys().then(keys => {
@@ -51,15 +79,27 @@
                 bluzelle.read(keys[x]).then(value => {
                     let title = value['title'];
                     let content = value['content'];
-
-                    title = '<h1>'+title+'</h1>'
-                    content = '<p>'+content+'</p>'
+                    let time = value['time'];
+                    let article_id = title;
+                    let edit = "<a id='{0}-edit'>edit</a>".format(title);
+                    let del = "<a id='{0}-del'>delete</a>".format(title);
+                    title = '<h1>' + title + '</h1>';
+                    content = converter.makeHtml(content);
+                    content = '<p>' + content + '</p>';
+                    time = '<p>' + time + '</p>';
 
                     console.log(content);
-                    $('div#posts').append('<article>');
-                    $('div#posts').append(title);
-                    $('div#posts').append(content);
-                    $('div#posts').append('</article>');
+                    let post = $('div#posts');
+                    post.append('<article id={0}>'.format(article_id));
+                    post.append(title);
+                    post.append(time);
+                    post.append(edit);
+                    post.append(' | ');
+                    post.append(del);
+                    post.append(content);
+                    post.append('</article>');
+                    post.append('<hr/>');
+
                 }, error => {
                 });
 
