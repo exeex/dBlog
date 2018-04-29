@@ -35,7 +35,7 @@
 
         ///////////new post//////////
         $("#submit").on("click", function (event) {
-            console.log("sendArticle")
+            console.log("sendArticle");
             var title = $('input#title').val();
             var content = simplemde.value();
 
@@ -49,9 +49,17 @@
             console.log(keys);
             for (x in keys) {
                 bluzelle.read(keys[x]).then(value => {
-                    let title = value['title']
-                    let content = value['content']
-                    console.log(content)
+                    let title = value['title'];
+                    let content = value['content'];
+
+                    title = '<h1>'+title+'</h1>'
+                    content = '<p>'+content+'</p>'
+
+                    console.log(content);
+                    $('div#posts').append('<article>');
+                    $('div#posts').append(title);
+                    $('div#posts').append(content);
+                    $('div#posts').append('</article>');
                 }, error => {
                 });
 
