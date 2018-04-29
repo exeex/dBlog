@@ -47,7 +47,6 @@
         bluzelle.connect('ws://140.114.78.42:51010', UUID);
 
 
-
         ///////////new post//////////
         $("#submit").on("click", function (event) {
             console.log("sendArticle");
@@ -62,7 +61,7 @@
             let min = d.getMinutes().toString();
             let time = year + '/' + mon + '/' + date + ' ' + hr + ':' + min;
 
-            bluzelle.create(title, {title: title, time:time, content: content}).then(() => {
+            bluzelle.create(title, {title: title, time: time, content: content}).then(() => {
                 console.log(time);
                 window.location.href = "index.html";
             });
@@ -83,23 +82,41 @@
                     let article_id = title;
                     let edit = "<a id='{0}-edit'>edit</a>".format(title);
                     let del = "<a id='{0}-del'>delete</a>".format(title);
-                    title = '<h1>' + title + '</h1>';
                     content = converter.makeHtml(content);
                     content = '<p>' + content + '</p>';
-                    time = '<p>' + time + '</p>';
 
                     console.log(content);
                     let post = $('div#posts');
-                    post.append('<article id={0}>'.format(article_id));
-                    post.append(title);
-                    post.append(time);
-                    post.append(edit);
-                    post.append(' | ');
-                    post.append(del);
-                    post.append(content);
-                    post.append('</article>');
-                    post.append('<hr/>');
 
+                    post.append(`
+                    <article id=${title}> 
+                    <h1>${title}</h1>
+                    <h4>${time} | ${edit} | ${del}</h4>
+                    ${content}
+                    <hr />
+                    </article>
+                    `)
+                    // post.append('<article id={0}>'.format(article_id));
+                    // post.append('<h1>' + title + '</h1>');
+                    // post.append(time);
+                    // post.append(edit);
+                    // post.append(' | ');
+                    // post.append(del);
+                    // post.append(content);
+                    // post.append('</article>');
+                    // post.append('<hr/>');
+
+
+                    $("#{0}-del".format(title)).on("click", function (event) {
+                        console.log("delArticle");
+
+                        bluzelle.remove(title).then(() => {
+                            console.log("delArticle done.");
+                            console.log('<article id={0}>'.format(article_id));
+                            // window.location.href = "index.html";
+                            $('article#{0}>'.format(article_id)).remove();
+                        });
+                    });
                 }, error => {
                 });
 
