@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+
+</head>
+<body>
+
+<form action="javascript:void(0);">
+    Title : <input type="text" name="title" id="title">
+    Content :
+    <textarea id="demo1"></textarea>
+    <button id="submit" >submit</button>
+</form>
+
+<script src="bower_components/jQuery/dist/jquery.js"></script>
+<script src="bower_components/simplemde/dist/simplemde.min.js"></script>
+<script src="bundle.js"></script>
+
+<script>
+    var simplemde = new SimpleMDE({
+        element: document.getElementById("demo1"),
+        spellChecker: false,
+    });
+
+</script>
+
+
+</body>
+</html>
