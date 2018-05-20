@@ -2,8 +2,13 @@
 
 # 用bluzelle js api做一個去中心化blogger
 
-這篇是講技術實現，在另外一篇會討論bussiness model以及可行性探討 
-我想要做的是一個完全去中心化的blog系統，  包含blog的廣告也使用智能合約做去中心化  
+這篇是講技術實現，另外一篇會討論bussiness model以及可行性探討  
+
+
+我想要做的是一個完全去中心化的blog系統，  
+包含blog的廣告也使用智能合約做去中心化  
+
+
 前端是html+js，和一般網頁並無二致  
 後端是IPFS(檔案)+Bluzelle(資料)，這邊完全不使用任何中心化的後端框架    
 
@@ -11,6 +16,11 @@
 
 ![](https://d2mxuefqeaa7sj.cloudfront.net/s_0721358924718A09B16679608A78189EBB90342A1866096B32E37B86179EEAA8_1526394938760_file.png)
 
+註：
+直接上傳IPFS之後會有一個BUG，原因是IPFS是使用https加密協定  
+而bluzelle.js api是使用ws的非加密協定(而非wss的加密協定)  
+大部分的瀏覽器會認為這樣不安全，然後就把api封鎖了= =  
+所以最後是host在本地端做測試  
 
 
 
